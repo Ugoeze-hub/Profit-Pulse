@@ -7,7 +7,7 @@ const LanguageToggle = ({ language, setLanguage }) => {
       <button
         onClick={() => setLanguage('english')}
         className={`
-          px-3 py-1 text-sm font-medium rounded-md transition-all duration-200
+          flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200
           ${language === 'english' 
             ? 'bg-white text-green-700 shadow-sm' 
             : 'text-gray-600 hover:text-gray-900'
@@ -19,7 +19,7 @@ const LanguageToggle = ({ language, setLanguage }) => {
       <button
         onClick={() => setLanguage('pidgin')}
         className={`
-          px-3 py-1 text-sm font-medium rounded-md transition-all duration-200
+          flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200
           ${language === 'pidgin' 
             ? 'bg-white text-green-700 shadow-sm' 
             : 'text-gray-600 hover:text-gray-900'

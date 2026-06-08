@@ -28,18 +28,34 @@ const LandingPage = () => {
             </div>
             <div className="flex items-center gap-4">
               <LanguageToggle language={language} setLanguage={setLanguage} />
-<Link 
-  to="/login"
-  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
->
-  Sign In
-</Link>
-<Link 
-  to="/signup"
-  className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-all duration-200 shadow-sm hover:shadow-md"
->
-  Get Started
-</Link>
+              {localStorage.getItem('isAuthenticated') === 'true' ? (
+                <>
+                  <Link to="/dashboard" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => { localStorage.removeItem('isAuthenticated'); window.location.reload(); }}
+                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-lg border border-gray-200 hover:bg-gray-50"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link 
+                    to="/login"
+                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link 
+                    to="/signup"
+                    className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-all duration-200 shadow-sm hover:shadow-md"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -64,7 +80,7 @@ const LandingPage = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button 
-                  onClick={() => navigate('/dashboard')}
+                  onClick={() => navigate('/signup')}
                   className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2"
                 >
                   Start Free Trial <FiArrowRight />
@@ -129,7 +145,7 @@ const LandingPage = () => {
             <h2 className="text-3xl font-bold mb-4">Ready to know where your money goes?</h2>
             <p className="text-green-100 mb-8">Join thousands of Nigerian business owners using ProfitPulse daily</p>
             <button 
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate('/signup')}
               className="px-8 py-3 bg-white text-green-700 font-semibold rounded-lg hover:bg-gray-100 transition-all duration-200 inline-flex items-center gap-2"
             >
               Get Started Free <FiArrowRight />

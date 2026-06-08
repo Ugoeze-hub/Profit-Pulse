@@ -13,8 +13,9 @@
   --surface-muted: #f9fafb;
 
   /* Borders
-  --border: #e5e4e7;
-  --border-strong: #d6d4da; */
+  */
+  --border: #e9e9ee;
+  --border-strong: #d6d4da;
 
   /* Code */
   --code-bg: #f4f3ec;
@@ -87,12 +88,15 @@ body {
   margin: 0;
 }
 
+:root {
+  --container-max-width: 1126px;
+}
+
 #root {
-  width: 1126px;
-  max-width: 100%;
+  width: 100%;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
+  padding: 24px 16px;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -151,17 +155,18 @@ code {
 :where(.card) {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 180ms ease, transform 120ms ease;
 }
 
 :where(.card-hover) {
-  transition: box-shadow 160ms ease, transform 160ms ease;
+  transition: box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease;
 }
 
 :where(.card-hover:hover) {
-  box-shadow: var(--shadow-sm);
-  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
 }
 
 :where(.btn) {
@@ -169,13 +174,13 @@ code {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 12px;
-  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  padding: 0.56rem 0.9rem;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   border: 1px solid transparent;
   transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease,
-    transform 160ms ease;
+    transform 120ms ease;
 }
 
 :where(.btn:focus-visible) {
@@ -186,10 +191,12 @@ code {
 :where(.btn-primary) {
   background: var(--primary);
   color: #ffffff;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.08);
 }
 
 :where(.btn-primary:hover) {
   background: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
 :where(.btn-secondary) {
@@ -205,19 +212,53 @@ code {
 :where(.input) {
   width: 100%;
   border: 1px solid var(--border-strong);
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   padding: 0.5rem 0.75rem;
-  background: #ffffff;
+  background: var(--surface);
+  transition: box-shadow 160ms ease, border-color 120ms ease, transform 120ms ease;
 }
 
 :where(.input:focus-visible) {
   outline: none;
-  box-shadow: 0 0 0 4px var(--ring);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.08), 0 0 0 4px var(--ring);
 }
 
 @media (prefers-color-scheme: dark) {
   :where(.input) {
     background: #1f2028;
   }
+}
+
+/* Utility: icon size within buttons and small UI elements */
+.btn-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Disabled state */
+.btn[disabled],
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Form help text */
+.muted {
+  color: var(--text);
+  opacity: 0.75;
+}
+
+/* Polished empty / small notices */
+.note {
+  background: var(--surface-muted);
+  border: 1px dashed var(--border);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.9rem;
 }
 
