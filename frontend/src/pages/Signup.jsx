@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { 
   FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiCheckCircle, 
@@ -13,6 +14,7 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState('english');
+  const { setIsAuthenticated } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     fullName: '',
     businessName: '',
@@ -86,7 +88,9 @@ const Signup = () => {
     setTimeout(() => {
       setLoading(false);
       toast.success('Account created successfully! Redirecting to dashboard...');
-      setTimeout(() => navigate('/dashboard'), 1500);
+      // Mark as authenticated and redirect to dashboard
+      setIsAuthenticated(true);
+      setTimeout(() => navigate('/dashboard', { replace: true }), 1500);
     }, 1500);
   };
 

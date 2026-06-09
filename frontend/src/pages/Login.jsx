@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiCheckCircle } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
@@ -9,6 +10,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState('english');
+  const { setIsAuthenticated } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -38,10 +40,11 @@ const Login = () => {
       setLoading(false);
       toast.success(language === 'english' ? 'Welcome back!' : 'Welcome back!');
 
-      // Let App.jsx know user is authenticated so /dashboard is accessible
-      localStorage.setItem('isAuthenticated', 'true');
+      // Update shared auth state so routes react immediately
+      setIsAuthenticated(true);
 
-      navigate('/dashboard');
+      // Replace navigation so user cannot go back to login with browser back
+      navigate('/dashboard', { replace: true });
     }, 1500);
   };
 

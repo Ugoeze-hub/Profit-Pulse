@@ -3,30 +3,20 @@ import { FiGlobe } from 'react-icons/fi';
 
 const LanguageToggle = ({ language, setLanguage }) => {
   return (
-    <div className="flex gap-1 p-1 bg-gray-100 rounded-lg">
+    <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white p-1.5 shadow-sm">
       <button
         onClick={() => setLanguage('english')}
-        className={`
-          flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200
-          ${language === 'english' 
-            ? 'bg-white text-green-700 shadow-sm' 
-            : 'text-gray-600 hover:text-gray-900'
-          }
-        `}
+        className={`language-pill ${language === 'english' ? 'active' : ''}`}
+        type="button"
       >
-        English
+        <FiGlobe size={14} /> English
       </button>
       <button
         onClick={() => setLanguage('pidgin')}
-        className={`
-          flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200
-          ${language === 'pidgin' 
-            ? 'bg-white text-green-700 shadow-sm' 
-            : 'text-gray-600 hover:text-gray-900'
-          }
-        `}
+        className={`language-pill ${language === 'pidgin' ? 'active' : ''}`}
+        type="button"
       >
-        Pidgin
+        <FiGlobe size={14} /> Pidgin
       </button>
     </div>
   );

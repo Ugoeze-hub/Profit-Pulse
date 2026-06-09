@@ -1,121 +1,82 @@
 import React, { useState } from 'react';
-import { FiRefreshCw, FiThumbsUp, FiMessageCircle, FiZap } from 'react-icons/fi';
+import { FiRefreshCw, FiZap } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 const PulseCard = () => {
   const [generating, setGenerating] = useState(false);
   const [liked, setLiked] = useState(false);
   const [pulse, setPulse] = useState({
-    message: "Good evening! Today you made ₦63,500. Your real profit after expenses is ₦18,200 — your best day this week.\n\n⭐ Your top earner: Indomie noodles (₦24,000 in sales)\n\n⚠️ One thing to watch: You've spent ₦6,200 on transport this week. Last week was ₦2,900. That's more than double — worth reviewing.\n\n💡 Tomorrow tip: Your soft drinks stock is moving fast. Consider restocking before Thursday."
+    message: "Good evening! Today you made ₦63,500. Your real profit after expenses is ₦18,200 — your best day this week.\n\n💡 Your top earner: Indomie noodles (₦24,000 in sales).\n\n⚠️ One thing to watch: You've spent ₦6,200 on transport this week, compared to ₦2,900 last week. That's more than double — worth reviewing.\n\n✨ Tomorrow tip: Your soft drinks stock is moving fast. Consider restocking before Thursday."
   });
 
   const generateNewPulse = () => {
     setGenerating(true);
     setTimeout(() => {
       setPulse({
-        message: "🌅 Morning! Yesterday summary: You sold ₦47,000 worth of goods. After expenses, your profit is ₦11,500. Pure water is still carrying your market — 60% of sales is water. Your transport cost has reduced by 15% today. Good job! For today, make sure you have enough change, many customers are complaining."
+        message: "Morning! Yesterday summary: You sold ₦47,000 worth of goods. After expenses, your profit is ₦11,500. Pure water is still carrying your market — 60% of sales is water. Your transport cost has reduced by 15% today. Good job! For today, make sure you have enough change; many customers are complaining."
       });
       setGenerating(false);
       setLiked(false);
-      toast.success('New Pulse card generated!', { icon: '✨' });
+      toast.success('New Pulse card generated!');
     }, 1500);
   };
 
   const handleLike = () => {
     setLiked(true);
-    toast.success('Thanks for your feedback!', { icon: '❤️' });
+    toast.success('Thanks for your feedback!');
   };
 
   return (
-    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-100 overflow-hidden sticky top-20 shadow-sm">
-      {/* Header */}
-      <div className="px-5 py-4 border-b border-green-100 bg-white/50">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-              <FiZap className="text-green-600" size={16} />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">Today's Pulse Card</h3>
-              <p className="text-xs text-gray-500">AI-generated • Daily at 8 PM</p>
-            </div>
+    <div className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <div className="grid h-12 w-12 place-items-center rounded-3xl bg-[#ecfdf5] text-[#0f766e]">
+            <FiZap size={22} />
           </div>
-          <button 
-            onClick={generateNewPulse}
-            disabled={generating}
-            className="p-2 text-green-700 hover:bg-green-100 rounded-lg transition-colors disabled:opacity-50"
-            title="Generate new pulse"
-          >
-            <FiRefreshCw className={`${generating ? 'animate-spin' : ''}`} size={18} />
-          </button>
+          <div>
+            <h3 className="text-xl font-semibold text-slate-900">Today's Pulse Card</h3>
+            <p className="mt-1 text-sm text-slate-500">AI-generated business summary for your day.</p>
+          </div>
         </div>
+        <button
+          onClick={generateNewPulse}
+          disabled={generating}
+          className="inline-flex items-center gap-2 rounded-2xl bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-200 transition-all disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          <FiRefreshCw className={generating ? 'animate-spin' : ''} size={18} />
+          {generating ? 'Refreshing...' : 'Refresh pulse'}
+        </button>
       </div>
-      
-      {/* Content */}
-      <div className="p-5">
-        {generating ? (
-          <div className="flex flex-col items-center justify-center py-12">
-            <div className="w-10 h-10 border-3 border-green-200 border-t-green-600 rounded-full animate-spin"></div>
-            <p className="text-sm text-gray-600 mt-4">Gemini is analyzing your business...</p>
-          </div>
-        ) : (
-          <>
-            <div className="prose prose-sm max-w-none">
-              {pulse.message.split('\n\n').map((paragraph, idx) => {
-                if (paragraph.startsWith('⭐')) {
-                  return (
-                    <div key={idx} className="bg-green-100 rounded-lg p-3 my-3 flex items-start gap-2">
-                      <span className="text-lg">⭐</span>
-                      <p className="text-sm text-green-800 m-0">{paragraph.substring(1).trim()}</p>
-                    </div>
-                  );
-                }
-                if (paragraph.startsWith('⚠️')) {
-                  return (
-                    <div key={idx} className="bg-amber-100 rounded-lg p-3 my-3 flex items-start gap-2">
-                      <span className="text-lg">⚠️</span>
-                      <p className="text-sm text-amber-800 m-0">{paragraph.substring(1).trim()}</p>
-                    </div>
-                  );
-                }
-                if (paragraph.startsWith('💡')) {
-                  return (
-                    <div key={idx} className="bg-blue-100 rounded-lg p-3 my-3 flex items-start gap-2">
-                      <span className="text-lg">💡</span>
-                      <p className="text-sm text-blue-800 m-0">{paragraph.substring(1).trim()}</p>
-                    </div>
-                  );
-                }
-                return (
-                  <p key={idx} className="text-gray-800 leading-relaxed mb-3 last:mb-0">
-                    {paragraph}
-                  </p>
-                );
-              })}
-            </div>
-            
-            <button 
-              onClick={handleLike}
-              disabled={liked}
-              className={`mt-5 w-full px-4 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm font-medium ${
-                liked 
-                  ? 'bg-green-100 text-green-700 cursor-default' 
-                  : 'bg-white border border-green-200 text-green-700 hover:bg-green-50'
-              }`}
-            >
-              <FiThumbsUp size={16} />
-              {liked ? 'Helpful' : 'Was this helpful?'}
-            </button>
-          </>
-        )}
-      </div>
-      
-      {/* Footer */}
-      <div className="px-5 py-3 bg-white/30 border-t border-green-100 text-center">
-        <p className="text-xs text-gray-500 flex items-center justify-center gap-1">
-          <FiMessageCircle size={12} />
-          Powered by Google Gemini AI
-        </p>
+
+      <div className="mt-5 space-y-4">
+        <div className="space-y-4 text-slate-700">
+          {pulse.message.split('\n\n').map((paragraph, idx) => {
+            if (paragraph.startsWith('⚠️')) {
+              return (
+                <div key={idx} className="rounded-3xl bg-[#fef3c7] p-4 text-[#92400e]">
+                  <p>{paragraph}</p>
+                </div>
+              );
+            }
+            if (paragraph.startsWith('💡') || paragraph.startsWith('✨')) {
+              return (
+                <div key={idx} className="rounded-3xl bg-[#eff6ff] p-4 text-[#1d4ed8]">
+                  <p>{paragraph}</p>
+                </div>
+              );
+            }
+            return (
+              <p key={idx} className="leading-7">{paragraph}</p>
+            );
+          })}
+        </div>
+        <button
+          onClick={handleLike}
+          disabled={liked}
+          className={`w-full rounded-2xl border px-4 py-3 text-sm font-semibold transition-all ${liked ? 'border-[#d1fae5] bg-[#ecfdf5] text-[#0f766e]' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'}`}
+        >
+          {liked ? 'Helpful' : 'Was this helpful?'}
+        </button>
       </div>
     </div>
   );

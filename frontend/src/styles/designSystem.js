@@ -1,6 +1,5 @@
 // Design System Tokens - Centralized for consistency
 export const designTokens = {
-  // Spacing scale (px)
   spacing: {
     0: '0px',
     1: '4px',
@@ -14,26 +13,19 @@ export const designTokens = {
     9: '48px',
     10: '64px',
   },
-  
-  // Border radius
   radius: {
-    sm: '6px',
-    md: '8px',
-    lg: '12px',
-    xl: '16px',
+    sm: '12px',
+    md: '18px',
+    lg: '24px',
+    xl: '32px',
     full: '9999px',
   },
-  
-  // Shadows - subtle, professional
   shadows: {
-    sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-    md: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-    lg: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-    xl: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-    focus: '0 0 0 2px #10b981, 0 0 0 4px rgba(16, 185, 129, 0.1)',
+    sm: '0 8px 24px -16px rgba(15, 23, 42, 0.08)',
+    md: '0 12px 34px -18px rgba(15, 23, 42, 0.12)',
+    lg: '0 16px 40px -20px rgba(15, 118, 110, 0.08)',
+    focus: '0 0 0 4px rgba(15, 118, 110, 0.25)',
   },
-  
-  // Colors - professional palette
   colors: {
     primary: {
       50: '#ecfdf5',
@@ -41,35 +33,34 @@ export const designTokens = {
       200: '#a7f3d0',
       300: '#6ee7b7',
       400: '#34d399',
-      500: '#10b981',
-      600: '#059669',
-      700: '#047857',
-      800: '#065f46',
-      900: '#064e3b',
+      500: '#0f766e',
+      600: '#115e59',
+      700: '#134e4a',
+      800: '#0f3f37',
+      900: '#0b312b',
     },
-    gray: {
-      50: '#f9fafb',
-      100: '#f3f4f6',
-      200: '#e5e7eb',
-      300: '#d1d5db',
-      400: '#9ca3af',
-      500: '#6b7280',
-      600: '#4b5563',
-      700: '#374151',
-      800: '#1f2937',
-      900: '#111827',
+    neutral: {
+      50: '#f8fafc',
+      100: '#f1f5f9',
+      200: '#e2e8f0',
+      300: '#cbd5e1',
+      400: '#94a3b8',
+      500: '#64748b',
+      600: '#475569',
+      700: '#334155',
+      800: '#1e293b',
+      900: '#0f172a',
     },
-    success: '#10b981',
+    accent: '#2563eb',
+    success: '#16a34a',
     warning: '#f59e0b',
-    error: '#ef4444',
-    info: '#3b82f6',
+    error: '#dc2626',
+    info: '#0ea5e9',
   },
-  
-  // Typography
   typography: {
     fontFamily: {
-      sans: 'Inter, system-ui, -apple-system, sans-serif',
-      mono: 'SF Mono, Monaco, monospace',
+      sans: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+      mono: 'ui-monospace, SFMono-Regular, Consolas, monospace',
     },
     fontSize: {
       xs: ['12px', '16px'],
@@ -79,7 +70,7 @@ export const designTokens = {
       xl: ['20px', '28px'],
       '2xl': ['24px', '32px'],
       '3xl': ['30px', '36px'],
-      '4xl': ['36px', '40px'],
+      '4xl': ['36px', '42px'],
     },
     fontWeight: {
       normal: '400',

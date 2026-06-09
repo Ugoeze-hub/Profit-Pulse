@@ -11,7 +11,7 @@ const QuickActions = () => {
       label: 'Add Transaction', 
       color: 'green', 
       description: 'Record a new sale or expense',
-      onClick: () => {},
+      onClick: () => navigate('/add-transaction'),
       badge: null
     },
     { 
@@ -27,7 +27,7 @@ const QuickActions = () => {
       label: 'AI Insights', 
       color: 'purple', 
       description: 'Get business recommendations',
-      onClick: () => navigate('/insights'),
+      onClick: () => navigate('/summary'),
       badge: 'New'
     },
     { 
