@@ -1,9 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, UploadFile, File
 from src.schemas.inventory import MessageRequest, RestockRequest, QARequest, DailyPulseRequest
 from src.services.message_parser import parse_inventory_message
 from src.services.restock_predictor import predict_restock
 from src.services.qa_service import answer_business_question
-from src.services.daily_pulse_service import generate_daily_pulse
+from src.services.daily_pulse import generate_daily_pulse
+from src.services.receipt_scanner import scan_receipt
+
 
 
 
@@ -48,5 +50,30 @@ def daily_pulse(request: DailyPulseRequest):
             inventory=[i.dict() for i in request.inventory]
         )
         return {"user_id": request.user_id, "pulse": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@router.post("/scan-receipt")
+async def scan_receipt_endpoint(
+    user_id: str,
+    file: UploadFile = File(...)
+):
+    try:
+        # Validate file type
+        if file.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
+            raise HTTPException(
+                status_code=400, 
+                detail="Only PNG and JPG images are supported"
+            )
+        
+        image_bytes = await file.read()
+        result = scan_receipt(image_bytes, mime_type=file.content_type)
+        
+        return {
+            "user_id": user_id,
+            "receipt": result
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
