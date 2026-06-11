@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException
-from src.schemas.inventory import MessageRequest, RestockRequest, QARequest
+from src.schemas.inventory import MessageRequest, RestockRequest, QARequest, DailyPulseRequest
 from src.services.message_parser import parse_inventory_message
 from src.services.restock_predictor import predict_restock
 from src.services.qa_service import answer_business_question
+from src.services.daily_pulse_service import generate_daily_pulse
 
 
 
@@ -36,5 +37,16 @@ def ask_question(request: QARequest):
             inventory_context=request.inventory_context
         )
         return {"user_id": request.user_id, "answer": answer}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@router.post("/daily-pulse")
+def daily_pulse(request: DailyPulseRequest):
+    try:
+        result = generate_daily_pulse(
+            transactions=[t.dict() for t in request.transactions],
+            inventory=[i.dict() for i in request.inventory]
+        )
+        return {"user_id": request.user_id, "pulse": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
