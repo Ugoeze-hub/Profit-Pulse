@@ -6,7 +6,7 @@ const {
   updateInvoice,
   sendInvoicePlaceholder,
   streamInvoicePDF
-} = require('../controllers/invoiceController');
+} = require('../controller/invoiceController');
 const verifyToken = require('../middleware/authMiddleware');
 
 const router = express.Router();

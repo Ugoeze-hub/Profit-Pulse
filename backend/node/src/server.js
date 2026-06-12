@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 
 const { PrismaClient } = require('@prisma/client');
-const authRoutes = require("./routes/authRoute.js")
+const authRoutes = require("./routes/authRoutes.js")
 const settingsRoutes = require("./routes/settingsRoutes.js")
 const transactionRoutes = require("./routes/transactionRoutes.js");
 const dashboardRoutes = require("./routes/dashboardRoutes.js");

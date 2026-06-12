@@ -1,5 +1,5 @@
 const express = require('express');
-const { addItem, getInventory, updateItem, deleteItem } = require('../controllers/inventoryController');
+const { addItem, getInventory, updateItem, deleteItem } = require('../controller/inventoryController');
 const verifyToken = require('../middleware/authMiddleware');
 
 const router = express.Router();

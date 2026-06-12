@@ -29,6 +29,8 @@ const createTransaction = async (req, res) => {
           description: description.trim(),
           date: date ? new Date(date) : new Date(),
           note: note ? note.trim() : null,
+          // 👇 FIXED: Generates a unique OPay-style transaction reference code automatically
+          reference: `TXN-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`,
         },
       });
 
@@ -192,24 +194,29 @@ const deleteTransaction = async (req, res) => {
 // ==========================================
 const getSummary = async (req, res) => {
   try {
-    const { period } = req.query; // periods can be 'day', 'week', 'month'
+    console.log("➡️ [DEBUG] 1. Inside getSummary. User ID:", req.userId);
+    
+    const { period } = req.query; 
     let dateFilter = new Date();
 
     if (period === 'day') dateFilter.setDate(dateFilter.getDate() - 1);
     else if (period === 'week') dateFilter.setDate(dateFilter.getDate() - 7);
-    else dateFilter.setMonth(dateFilter.getMonth() - 1); // Defaults to monthly loop
+    else dateFilter.setMonth(dateFilter.getMonth() - 1);
+
+    console.log("➡️ [DEBUG] 2. Date window calculated:", dateFilter);
 
     const aggregateData = await prisma.transaction.groupBy({
       by: ['type'],
       where: {
         userId: req.userId,
-        date: { gte: dateFilter },
+        date: { gte: dateFilter }, 
       },
       _sum: { amount: true },
       _count: { id: true },
     });
 
-    // Structure raw summaries smoothly into clean objects for his StatsCards
+    console.log("➡️ [DEBUG] 3. Database responded. Data found:", aggregateData);
+
     let totalRevenue = 0;
     let totalExpenses = 0;
     let revenueCount = 0;
@@ -227,6 +234,7 @@ const getSummary = async (req, res) => {
 
     const profit = totalRevenue - totalExpenses;
 
+    console.log("➡️ [DEBUG] 4. Sending JSON response back to Postman.");
     return res.status(200).json({
       summary: {
         revenue: totalRevenue,
@@ -238,6 +246,7 @@ const getSummary = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("❌ [DEBUG ERROR] getSummary crashed:", error.message);
     return res.status(500).json({ error: 'Server error calculating financial summary', details: error.message });
   }
 };

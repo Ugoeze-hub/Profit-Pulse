@@ -47,13 +47,18 @@ model Inventory {
 model Transaction {
   id          String   @id @default(uuid())
   userId      String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   reference   String   @unique
+  type        String   // 'revenue' or 'expense'
   amount      Float
-  status      String   
-  description String?
+  category    String
+  description String
+  date        DateTime @default(now())
+  note        String?
+  status      String   @default("completed")
   createdAt   DateTime @default(now())
 }
+
 
 model Invoice {
   id           String        @id @default(uuid())

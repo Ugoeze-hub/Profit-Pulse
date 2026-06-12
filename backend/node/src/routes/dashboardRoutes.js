@@ -5,7 +5,7 @@ const {
   getTrends, 
   getExpenseBreakdown,
   getInsights
-} = require('../controllers/dashboardController');
+} = require('../controller/dashboardController');
 const verifyToken = require('../middleware/authMiddleware');
 
 const router = express.Router();

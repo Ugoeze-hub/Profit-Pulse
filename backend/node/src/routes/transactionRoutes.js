@@ -6,7 +6,7 @@ const {
   updateTransaction,
   deleteTransaction,
   getSummary
-} = require('../controllers/transactionController');
+} = require("../controller/transactionController");
 const verifyToken = require('../middleware/authMiddleware');
 
 const router = express.Router();
