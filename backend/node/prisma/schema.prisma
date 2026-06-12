@@ -1,0 +1,102 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String        @id @default(uuid())
+  fullName     String
+  businessName String
+  email        String        @unique
+  phone        String?       // Optional field matching the frontend
+  password     String
+  balance      Float         @default(0.0)
+
+  currency     String        @default("NGN")
+  language     String        @default("english")
+  notifications Json         @default("{\"dailyPulse\": true, \"profitAlerts\": true, \"expenseWarnings\": true, \"marketingEmails\": false}")
+
+
+  createdAt    DateTime      @default(now())
+  inventories  Inventory[]
+  transactions Transaction[]
+  invoices     Invoice[]
+  receipts     Receipt[]
+}
+
+model Inventory {
+  id          String   @id @default(uuid())
+  userId      String
+  name        String   // e.g., "Indomie Noodles (Carton)"
+  quantity    Int      @default(0)
+  price       Float    // Selling price per unit
+  costPrice   Float    @default(0.0) // What she bought it for
+  category    String   // e.g., "Stock", "Drinks"
+  lowStockThresh Int   @default(5) // Alert when stock drops below this number
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reference   String   @unique
+  type        String   // 'revenue' or 'expense'
+  amount      Float
+  category    String
+  description String
+  date        DateTime @default(now())
+  note        String?
+  status      String   @default("completed")
+  createdAt   DateTime @default(now())
+}
+
+
+model Invoice {
+  id           String        @id @default(uuid())
+  userId       String
+  customer     String
+  dueDate      DateTime
+  totalAmount  Float
+  status       String        @default("draft") // draft, sent, paid
+  createdAt    DateTime      @default(now())
+  
+  // Relations
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items        InvoiceItem[]
+}
+
+model InvoiceItem {
+  id          String   @id @default(uuid())
+  invoiceId   String
+  description String
+  quantity    Int
+  price       Float
+  
+  // Relations
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+
+model Receipt {
+  id           String   @id @default(uuid())
+  userId       String
+  imageUrl     String   // Store path or base64 reference string
+  merchant     String
+  totalAmount  Float
+  category     String
+  items        Json     // Stores the array of individual receipt items cleanly
+  confirmed    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
