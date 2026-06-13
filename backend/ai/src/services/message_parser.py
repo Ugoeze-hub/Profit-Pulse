@@ -1,9 +1,8 @@
-import google.generativeai as genai
+from google import genai
 import os
 import json
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-2.5-flash")
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 def parse_inventory_message(text: str):
     prompt = f"""
@@ -25,8 +24,10 @@ def parse_inventory_message(text: str):
     "Add 20 rice and sold 5 sugar" → {{"items": [{{"action": "add", "item": "rice", "quantity": 20, "unit": null}}, {{"action": "deduct", "item": "sugar", "quantity": 5, "unit": null}}]}}
     """
     
-    response = model.generate_content(prompt)
-    
+    response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=prompt
+)
     # Strip any markdown formatting Gemini might add
     raw = response.text.strip().replace("```json", "").replace("```", "").strip()
     

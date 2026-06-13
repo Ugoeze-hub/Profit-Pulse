@@ -1,10 +1,10 @@
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import os
 import json
 import base64
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-2.5-flash")
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 def scan_receipt(image_bytes: bytes, mime_type: str = "image/jpeg") -> dict:
     # Convert image to base64 for Gemini Vision
@@ -41,20 +41,21 @@ def scan_receipt(image_bytes: bytes, mime_type: str = "image/jpeg") -> dict:
     - If this is not a receipt, return { "error": "Not a valid receipt" }
     """
     
-    response = model.generate_content([
-        {
-            "role": "user",
-            "parts": [
-                {
-                    "inline_data": {
-                        "mime_type": mime_type,
-                        "data": image_data
-                    }
-                },
-                {"text": prompt}
-            ]
-        }
-    ])
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=[
+            types.Content(
+                role="user",
+                parts=[
+                    types.Part.from_bytes(
+                        data=image_bytes,
+                        mime_type=mime_type
+                    ),
+                    types.Part.from_text(text=prompt)
+                ]
+            )
+        ]
+    )
     
     raw = response.text.strip().replace("```json", "").replace("```", "").strip()
     result = json.loads(raw)

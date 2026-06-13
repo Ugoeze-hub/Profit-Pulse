@@ -1,8 +1,8 @@
-from fastapi import FastAPI
 from dotenv import load_dotenv
+load_dotenv()
+from fastapi import FastAPI
 from src.routes.inventory import router as inventory_router
 
-load_dotenv()
 
 app = FastAPI(title="Inventory AI Service")
 

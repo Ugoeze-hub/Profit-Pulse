@@ -1,10 +1,8 @@
-import google.generativeai as genai
+from google import genai
 import os
 import json
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-2.5-flash")
-
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 def answer_business_question(question: str, inventory_context: dict):
     prompt = f"""
     You are a helpful business assistant for a Nigerian market trader.
@@ -25,5 +23,8 @@ def answer_business_question(question: str, inventory_context: dict):
     Answer:
     """
     
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=prompt
+)
     return response.text.strip()

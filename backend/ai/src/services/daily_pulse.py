@@ -1,10 +1,8 @@
-import google.generativeai as genai
+from google import genai
 import os
 import json
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-2.5-flash")
-
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 def generate_daily_pulse(transactions: list, inventory: list) -> dict:
     prompt = f"""
     You are a trusted business advisor for a Nigerian market trader.
@@ -33,6 +31,9 @@ def generate_daily_pulse(transactions: list, inventory: list) -> dict:
     - If data is insufficient for any field, say so honestly in that field
     """
     
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=prompt
+)
     raw = response.text.strip().replace("```json", "").replace("```", "").strip()
     return json.loads(raw)
