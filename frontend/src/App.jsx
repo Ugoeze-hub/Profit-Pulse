@@ -14,6 +14,8 @@ import Signup from './pages/Signup';
 import TransactionInput from './pages/TransactionInput';
 import TransactionHistory from './pages/TransactionHistory';
 import BusinessDashboard from './pages/BusinessDashboard';
+import Inventory from './pages/Inventory';
+
 
 const globalStyles = `
   * {
@@ -129,7 +131,9 @@ function AppRoutes() {
           <Route path="/receipt-scanner" element={isAuthenticated ? <ReceiptScanner /> : <Navigate to="/login" />} />
           <Route path="/invoices" element={isAuthenticated ? <InvoiceDetails /> : <Navigate to="/login" />} />
           <Route path="/settings" element={isAuthenticated ? <Settings /> : <Navigate to="/login" />} />
+          <Route path="/inventory" element={isAuthenticated ? <Inventory /> : <Navigate to="/login" />} />
         </Routes>
+
       </div>
     </>
   );

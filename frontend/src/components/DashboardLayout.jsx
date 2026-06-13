@@ -9,8 +9,10 @@ import {
   FiX,
   FiLogOut,
   FiPieChart,
-  FiPlusCircle
+  FiPlusCircle,
+  FiHeart
 } from 'react-icons/fi';
+
 import { MdOutlineDashboard } from 'react-icons/md';
 import LanguageToggle from './LanguageToggle';
 
@@ -36,12 +38,14 @@ const DashboardLayout = ({ children, title }) => {
 
   const navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: MdOutlineDashboard },
+    { path: '/inventory', label: 'Inventory', icon: FiHeart },
     { path: '/transactions', label: 'Transactions', icon: FiPlusCircle },
     { path: '/summary', label: 'Pulse', icon: FiZap },
     { path: '/business', label: 'Business', icon: FiPieChart },
     { path: '/receipt-scanner', label: 'Scan', icon: FiCamera },
     { path: '/settings', label: 'Settings', icon: FiSettings },
   ];
+
 
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');

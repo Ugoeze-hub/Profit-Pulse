@@ -46,7 +46,7 @@ const TransactionHistory = () => {
                   className="input pl-12"
                 />
               </div>
-              <button className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all">
+              <button className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-1 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all">
                 <FiFilter /> {filter === 'all' ? 'All' : filter === 'income' ? 'Income' : 'Expenses'}
                 <FiChevronDown />
               </button>
