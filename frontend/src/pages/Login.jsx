@@ -61,7 +61,7 @@ const Login = () => {
       signingIn: 'Signing in...',
       noAccount: "Don't have an account?",
       signUp: 'Sign up',
-      demo: 'Demo credentials: demo@profitpulse.com / any password'
+      demo: 'Demo credentials: demo@tally.com / any password'
     },
     pidgin: {
       title: 'Welcome back',
@@ -75,7 +75,7 @@ const Login = () => {
       signingIn: 'Signing in...',
       noAccount: "You no get account?",
       signUp: 'Sign up',
-      demo: 'Demo credentials: demo@profitpulse.com / any password'
+      demo: 'Demo credentials: demo@tally.com / any password'
     }
   };
 
@@ -88,7 +88,7 @@ const Login = () => {
         <div className="absolute inset-0 bg-black/12"></div>
         <div className="relative z-10 flex flex-col justify-between p-12 text-white">
           <div className="flex items-center gap-3">
-            <div className="rounded-md bg-white/10 px-3 py-1 text-sm font-semibold">ProfitPulse</div>
+            <div className="rounded-md bg-white/10 px-3 py-1 text-sm font-semibold">TALLY</div>
           </div>
 
           <div className="space-y-6">
@@ -124,7 +124,7 @@ const Login = () => {
           <div className="lg:hidden text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <span className="text-3xl">📈</span>
-              <span className="font-bold text-2xl text-gray-900">ProfitPulse</span>
+              <span className="font-bold text-2xl text-gray-900">TALLY</span>
             </div>
             <p className="text-sm text-gray-600">Business intelligence for Nigerian SMEs</p>
           </div>

@@ -153,12 +153,12 @@ const Signup = () => {
         <div className="relative z-10 flex flex-col justify-between p-12 text-white">
           <div className="flex items-center gap-2">
             <span className="text-3xl">📈</span>
-            <span className="font-bold text-2xl">ProfitPulse</span>
+            <span className="font-bold text-2xl">TALLY</span>
           </div>
           
           <div className="space-y-6">
             <h2 className="text-3xl font-bold leading-tight">
-              Join thousands of Nigerian business owners already growing with ProfitPulse
+              Join thousands of Nigerian business owners already growing with Tally
             </h2>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
@@ -196,7 +196,7 @@ const Signup = () => {
           <div className="lg:hidden text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <span className="text-3xl">📈</span>
-              <span className="font-bold text-2xl text-gray-900">ProfitPulse</span>
+              <span className="font-bold text-2xl text-gray-900">TALLY</span>
             </div>
             <p className="text-sm text-gray-600">Business intelligence for Nigerian SMEs</p>
           </div>

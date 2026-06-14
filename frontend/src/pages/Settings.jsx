@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 const Settings = () => {
   const [businessProfile, setBusinessProfile] = useState({
     name: 'Mama Chioma Provisions',
-    email: 'mama.chioma@profitpulse.com',
+    email: 'mama.chioma@gmail.com',
     phone: '+234 801 234 5678',
     currency: 'NGN',
     timezone: 'Africa/Lagos'
