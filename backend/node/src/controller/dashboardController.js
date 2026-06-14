@@ -71,9 +71,7 @@ const getRecentTransactions = async (req, res) => {
   }
 };
 
-// ==========================================
-// 3. GET: CHRONOLOGICAL CASH FLOW TRENDS (%)
-// ==========================================
+
 const getTrends = async (req, res) => {
   try {
     const { period = 'week' } = req.query;
@@ -214,10 +212,108 @@ const getInsights = async (req, res) => {
   }
 };
 
+// ==========================================
+// 6. GET: AI DAILY PULSE INSIGHTS
+// ==========================================
+const getDailyPulseAI = async (req, res) => {
+  try {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    // Fetch today's transactions
+    const todaysTransactions = await prisma.transaction.findMany({
+      where: { userId: req.userId, date: { gte: today } },
+      select: {
+        id: true,
+        type: true,
+        description: true,
+        amount: true,
+        category: true,
+        date: true
+      }
+    });
+
+    // Fetch inventory data
+    const inventory = await prisma.inventory.findMany({
+      where: { userId: req.userId },
+      select: {
+        id: true,
+        name: true,
+        quantity: true,
+        price: true
+      }
+    });
+
+    // Transform for AI service
+    const transactions = todaysTransactions.map(t => ({
+      item: t.description,
+      type: t.type === 'revenue' ? 'income' : 'expense',
+      amount: t.amount,
+      category: t.category,
+      date: t.date.toISOString()
+    }));
+
+    const inventoryData = inventory.map(i => ({
+      item: i.name,
+      stock: i.quantity,
+      units_sold_today: 0 // Can be calculated if needed
+    }));
+
+    // Call AI service for daily pulse
+    const aiService = require('../services/aiService');
+    const pulse = await aiService.generateDailyPulse(req.userId, transactions, inventoryData);
+
+    return res.status(200).json({
+      message: 'Daily pulse generated successfully',
+      pulse: pulse.pulse
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to generate daily pulse', details: error.message });
+  }
+};
+
+// ==========================================
+// 7. POST: ASK AI BUSINESS QUESTION
+// ==========================================
+const askQuestion = async (req, res) => {
+  try {
+    const { question } = req.body;
+
+    if (!question) {
+      return res.status(400).json({ error: 'Question is required' });
+    }
+
+    // Fetch inventory context for AI
+    const inventory = await prisma.inventory.findMany({
+      where: { userId: req.userId },
+      select: { name: true, quantity: true, price: true, category: true }
+    });
+
+    const inventoryContext = {
+      items: inventory,
+      totalItems: inventory.length,
+      lowStockItems: inventory.filter(i => i.quantity < 10)
+    };
+
+    // Call AI service to answer question
+    const aiService = require('../services/aiService');
+    const answer = await aiService.askBusinessQuestion(req.userId, question, inventoryContext);
+
+    return res.status(200).json({
+      question,
+      answer: answer.answer
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to answer question', details: error.message });
+  }
+};
+
 module.exports = {
   getOverview,
   getRecentTransactions,
   getTrends,
   getExpenseBreakdown,
-  getInsights
+  getInsights,
+  getDailyPulseAI,
+  askQuestion
 };

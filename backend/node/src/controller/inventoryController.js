@@ -109,10 +109,101 @@ const deleteItem = async (req, res) => {
   }
 };
 
+// ==========================================
+// 5. POST: AI RESTOCK PREDICTION
+// ==========================================
+const predictRestockAI = async (req, res) => {
+  try {
+    const { itemId } = req.params;
+    const { salesHistory = [] } = req.body;
+
+    // Fetch item from database
+    const item = await prisma.inventory.findFirst({
+      where: { id: itemId, userId: req.userId }
+    });
+
+    if (!item) {
+      return res.status(404).json({ error: 'Inventory item not found or unauthorized' });
+    }
+
+    // Call AI service for prediction
+    const aiService = require('../services/aiService');
+    const prediction = await aiService.predictRestock(
+      req.userId,
+      item.name,
+      item.quantity,
+      salesHistory
+    );
+
+    return res.status(200).json({
+      message: 'Restock prediction generated',
+      item: item.name,
+      currentStock: item.quantity,
+      prediction: prediction.prediction
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'AI prediction failed', details: error.message });
+  }
+};
+
+// ==========================================
+// 6. POST: PARSE INVENTORY MESSAGE
+// ==========================================
+const parseMessage = async (req, res) => {
+  try {
+    const { text } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: 'Message text is required' });
+    }
+
+    // Call AI service to parse message
+    const aiService = require('../services/aiService');
+    const parsed = await aiService.parseInventoryMessage(req.userId, text);
+
+    return res.status(200).json({
+      message: 'Message parsed successfully',
+      activity: parsed.activity
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'Message parsing failed', details: error.message });
+  }
+};
+
+// ==========================================
+// 7. POST: SCAN RECEIPT (OCR + AI)
+// ==========================================
+const scanReceiptImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Receipt image file is required' });
+    }
+
+    // Call AI service to scan receipt
+    const aiService = require('../services/aiService');
+    const result = await aiService.scanReceipt(
+      req.userId,
+      req.file.buffer,
+      req.file.originalname
+    );
+
+    return res.status(200).json({
+      message: 'Receipt scanned successfully',
+      items: result.items || [],
+      total: result.total || null
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'Receipt scanning failed', details: error.message });
+  }
+};
+
 module.exports = {
   addItem,
   getInventory,
   updateItem,
-  deleteItem
+  deleteItem,
+  predictRestockAI,
+  parseMessage,
+  scanReceiptImage
 };
 
