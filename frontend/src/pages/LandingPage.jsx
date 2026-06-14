@@ -24,7 +24,7 @@ const LandingPage = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
               <span className="text-2xl">📈</span>
-              <span className="font-bold text-xl text-gray-900">ProfitPulse</span>
+              <span className="font-bold text-xl text-gray-900">TALLY</span>
             </div>
             <div className="flex items-center gap-4">
               <LanguageToggle language={language} setLanguage={setLanguage} />
@@ -127,7 +127,7 @@ const LandingPage = () => {
         <div className="max-w-4xl mx-auto text-center">
           <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl p-12 text-white">
             <h2 className="text-3xl font-bold mb-4">Ready to know where your money goes?</h2>
-            <p className="text-green-100 mb-8">Join thousands of Nigerian business owners using ProfitPulse daily</p>
+            <p className="text-green-100 mb-8">Join thousands of Nigerian business owners using Tally daily</p>
             <button 
               onClick={() => navigate('/signup')}
               className="px-8 py-3 bg-white text-green-700 font-semibold rounded-lg hover:bg-gray-100 transition-all duration-200 inline-flex items-center gap-2"

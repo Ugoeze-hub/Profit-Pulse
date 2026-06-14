@@ -27,7 +27,7 @@ const AIInsights = () => {
   ]);
 
   return (
-    <DashboardLayout title="ProfitPulse Summary">
+    <DashboardLayout title="Tally Summary">
       <div className="space-y-6">
         <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

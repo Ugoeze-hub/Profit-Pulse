@@ -58,7 +58,7 @@ const DashboardLayout = ({ children, title }) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
             <span className="text-2xl">📈</span>
-            <span className="font-bold text-slate-900 text-lg">ProfitPulse</span>
+            <span className="font-bold text-slate-900 text-lg">TALLY</span>
           </div>
           <button onClick={() => setSidebarOpen(true)} className="p-2 text-slate-700 rounded-xl hover:bg-slate-100 transition-all">
             <FiMenu size={22} />
@@ -83,7 +83,7 @@ const DashboardLayout = ({ children, title }) => {
               <span className="text-xl">📈</span>
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">ProfitPulse</h2>
+              <h2 className="text-lg font-semibold text-slate-900">TALLY</h2>
               <p className="text-sm text-slate-500">AI business pulse</p>
             </div>
           </div>
@@ -129,7 +129,7 @@ const DashboardLayout = ({ children, title }) => {
               </div>
               <div>
                 <p className="text-sm font-semibold text-slate-900">Mama Chioma</p>
-                <p className="text-xs text-slate-500">mama@profitpulse.com</p>
+                <p className="text-xs text-slate-500">mama@gmail.com</p>
               </div>
             </div>
             <button 
